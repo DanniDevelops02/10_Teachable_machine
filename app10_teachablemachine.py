@@ -205,6 +205,7 @@ const $ = (id) => document.getElementById(id);
 let model, webcam, ctx, labels = [];
 let audioCtx = null, fuenteActual = null;
 const buffers = {};
+const fallosAudio = {};  // letra -> motivo (p. ej. 404), para diagnosticar
 
 // Estado de la detección
 let candidata = null, conteo = 0, ultimaSonada = null, ultimoSonidoMs = 0;
@@ -222,6 +223,8 @@ async function cargarAudios() {
       buffers[p] = await audioCtx.decodeAudioData(await r.arrayBuffer());
     } catch (e) {
       buffers[p] = null;  // se usará el tono de respaldo
+      fallosAudio[p] = e.message === "404" ? "no encontrado (404)" : (e.message || "no se pudo leer");
+      console.warn("Audio", p, CFG.audio[p], fallosAudio[p]);
     }
   }));
 }
@@ -328,7 +331,8 @@ async function iniciar() {
 
     const sinAudio = CFG.secuencia.filter((p) => !buffers[p]);
     $("estado").textContent = sinAudio.length
-      ? `¡Listo! (sin audio para ${sinAudio.join(", ")}: sonará un tono)`
+      ? `¡Listo! Sin audio para ${sinAudio.map((p) => `${p} (${fallosAudio[p]})`).join(", ")}: sonará un tono. ` +
+        `Revisa ${CFG.audio[sinAudio[0]]}`
       : "¡Listo! Haz las poses Y · M · C · A";
     btn.textContent = "Cámara activa";
     window.requestAnimationFrame(loop);
