@@ -16,9 +16,9 @@ st.set_page_config(
 MODEL_URL = "https://teachablemachine.withgoogle.com/models/4fkkxYXuS/"
 SECUENCIA = ["Y", "M", "C", "A"]  # "Neutral" no suena
 
-# Audios en la carpeta audio/ del repositorio (Y.mp3, M.mp3, C.mp3, A.mp3).
+# Audios en la carpeta Audios/ del repositorio (Y.mp3, M.mp3, C.mp3, A.mp3).
 # Cambia USUARIO/REPO por los de tu GitHub. Si un audio falta, suena un tono.
-AUDIO_BASE_URL = "https://github.com/DanniDevelops02/10_Teachable_machine/tree/main/Audios/"
+AUDIO_BASE_URL = "https://raw.githubusercontent.com/DanniDevelops02/10_Teachable_machine/main/Audios/"
 
 # ---------- Estilo (misma paleta que app.py) ----------
 PRIMARIO = "#3f71a6"
